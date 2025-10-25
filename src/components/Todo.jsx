@@ -4,16 +4,17 @@ import TodoItems from "./Todoitems";
 const Todo = () => {
   const [taskText, setTaskText] = useState("");
   const [category, setCategory] = useState("Study");
-  const [tasks, setTasks] = useState([]);
+
+
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem("todos");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
+
   const [editId, setEditId] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 5;
-
-  useEffect(() => {
-    const savedTasks = JSON.parse(localStorage.getItem("todos"));
-    if (savedTasks) setTasks(savedTasks);
-  }, []);
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(tasks));
